@@ -16,6 +16,7 @@ class GrammarTest extends TestCase {
         $this->grammar = new Grammar;
         $this->processor = new Processor;
     }
+    
 
     public function tearDown()
     {
