@@ -36,10 +36,7 @@ trait HybridRelations
         $foreignKey = $foreignKey ?: $this->getForeignKey();
         $ownerKey = $ownerKey ?: $this->getKeyName();
         $instance = $this->newRelatedInstance($related);
-        $table = last($instance->getTable());
 
-        return $this->newBelongsTo(
-            $instance->newQuery(), $this, "$table.$foreignKey", $ownerKey, $relation
-        );
+        return new BelongsTo($instance->newQuery(), $this, $foreignKey, $ownerKey, $relation);
     }
 }

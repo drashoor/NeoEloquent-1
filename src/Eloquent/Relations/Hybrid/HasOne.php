@@ -5,6 +5,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Vinelab\NeoEloquent\Eloquent\Edges\EdgeOut;
 use Illuminate\Database\Eloquent\Model as EloquentModel;
 use Vinelab\NeoEloquent\Eloquent\Relations\HasOneOrMany;
+use Illuminate\Database\Eloquent\Relations\HasOneOrMany as EloquentHasOneOrMany;
 
 class HasOne extends HasOneOrMany
 {
@@ -91,5 +92,15 @@ class HasOne extends HasOneOrMany
     public function getResults()
     {
         return $this->query->first();
+    }
+
+    public function create(array $attributes = [], array $properties = array())
+    {
+        return EloquentHasOneOrMany::create($attributes);
+    }
+
+    public function update(array $values)
+    {
+        return EloquentHasOneOrMany::update($values);
     }
 }
