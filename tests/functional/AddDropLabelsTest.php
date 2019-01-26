@@ -179,6 +179,7 @@ class AddDropLabelsTest extends TestCase {
         $w2->addLabels(array('Superuniqelabel8'));
         $w3->addLabels(array('Superuniqelabel8'));
 
+
         //add the array of labels
         $w1->addLabels(array( 'Superuniqelabel9','Superuniqelabel10'));
         $w2->addLabels(array( 'Superuniqelabel9', 'Superuniqelabel10'));
