@@ -4,9 +4,6 @@ use Illuminate\Database\Schema\Blueprint;
 use Mockery as M;
 use Vinelab\NeoEloquent\Eloquent\Relations\Hybrid\HybridRelations;
 use Vinelab\NeoEloquent\Tests\TestCase;
-use \Illuminate\Database\DatabaseManager;
-use \Illuminate\Database\Connectors\ConnectionFactory;
-use \Illuminate\Database\Schema\Builder as SchemaBuilder;
 
 class User extends \Illuminate\Database\Eloquent\Model
 {
@@ -41,47 +38,6 @@ class HasOneHybridRelationTest extends TestCase
 
     protected $schema;
 
-    protected function prepareDatabase()
-    {
-        $config = [
-            'database.default' => 'neo4j',
-            'database.connections' => $this->dbConfig['connections']
-        ];
-        $container = m::mock('Illuminate\Container\Container');
-        $container->shouldReceive('bound')->andReturn(false);
-        $container->shouldReceive('offsetGet')->with('config')->andReturn($config);
-        $db = new DatabaseManager(
-            $container,
-            new ConnectionFactory($container)
-        );
-        $this->db = $db;
-        $sqliteConnection = $this->db->connection('sqlite');
-        $sqliteConnection->setSchemaGrammar(new \Illuminate\Database\Schema\Grammars\SQLiteGrammar);
-        $sqliteConnection->setQueryGrammar(new \Illuminate\Database\Query\Grammars\SQLiteGrammar);
-        $this->schema = new SchemaBuilder($sqliteConnection);
-
-        $resolver = M::mock('Illuminate\Database\ConnectionResolverInterface');
-        $resolver->shouldReceive('connection')
-            ->withArgs(["sqlite"])
-            ->andReturn($sqliteConnection);
-
-        $neo4jConnection = $this->getConnectionWithConfig('neo4j');
-
-        $resolver->shouldReceive('connection')
-            ->withArgs(["neo4j"])
-            ->andReturn($neo4jConnection);
-
-        $resolver->shouldReceive('connection')
-            ->withArgs([null])
-            ->andReturn($neo4jConnection);
-
-        $resolver->shouldReceive('getDefaultConnection')
-            ->andReturn($this->getConnectionWithConfig('default'));
-
-        User::setConnectionResolver($resolver);
-        Profile::setConnectionResolver($resolver);
-    }
-
     public function tearDown()
     {
         M::close();
@@ -95,6 +51,9 @@ class HasOneHybridRelationTest extends TestCase
     {
         parent::setUp();
         $this->prepareDatabase();
+
+        User::setConnectionResolver($this->resolver);
+        Profile::setConnectionResolver($this->resolver);
 
         $this->schema->create('users', function (Blueprint $t) {
             $t->increments('id');
