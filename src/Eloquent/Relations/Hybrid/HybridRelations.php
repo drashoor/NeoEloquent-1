@@ -22,21 +22,17 @@ trait HybridRelations
 
     public function belongsToHybrid($related, $foreignKey = null, $ownerKey = null, $relation = null)
     {
-        if (is_null($relation)) {
-            $relation = $this->guessBelongsToRelation();
-        }
+        $instance = $this->newRelatedInstance($related);
+        $foreignKey = $foreignKey ?: $instance->getForeignKey();
+        $ownerKey = $ownerKey ?: $instance->getKeyName();
+        $relation = $relation ?: $this->guessBelongsToRelation();
 
         //TO make relation from non-relational to relational
         if (!is_subclass_of($related, 'Vinelab\NeoEloquent\Eloquent\Model')) {
-            return Model::belongsTo($related, $foreignKey, $ownerKey, $relation);
+            return new GraphBelongsToSql($instance->newQuery(), $this, $foreignKey, $ownerKey, $relation);
         }
 
         //TO make relation from relational to non-relational
-
-        $foreignKey = $foreignKey ?: $this->getForeignKey();
-        $ownerKey = $ownerKey ?: $this->getKeyName();
-        $instance = $this->newRelatedInstance($related);
-
-        return new BelongsTo($instance->newQuery(), $this, $foreignKey, $ownerKey, $relation);
+        return new SqlBelongsToGraph($instance->newQuery(), $this, $foreignKey, $ownerKey, $relation);
     }
 }

@@ -5,7 +5,7 @@ use Vinelab\NeoEloquent\Eloquent\Edges\EdgeIn;
 use Illuminate\Database\Eloquent\Model as EloquentModel;
 use Vinelab\NeoEloquent\Eloquent\Relations\OneRelation;
 
-class BelongsTo extends OneRelation
+class SqlBelongsToGraph extends OneRelation
 {
 
     /**
