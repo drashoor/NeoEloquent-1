@@ -1,5 +1,6 @@
 <?php namespace Vinelab\NeoEloquent\Eloquent\Relations\Hybrid;
 
+use Illuminate\Database\Eloquent\Relations\Concerns\SupportsDefaultModels;
 use Vinelab\NeoEloquent\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
 use Vinelab\NeoEloquent\Eloquent\Edges\EdgeOut;
@@ -9,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasOneOrMany as EloquentHasOneOrMany;
 
 class HasOne extends HasOneOrMany
 {
+    use SupportsDefaultModels;
 
     /**
      * Initialize the relation on a set of models.
@@ -102,5 +104,21 @@ class HasOne extends HasOneOrMany
     public function update(array $values)
     {
         return EloquentHasOneOrMany::update($values);
+    }
+
+    public function newRelatedInstanceFor(Model $parent)
+    {
+        return $this->related->newInstance()->setAttribute(
+            $this->getForeignKeyName(), $parent->{$this->localKey}
+        );
+    }
+
+    public function initRelation(array $models, $relation)
+    {
+        foreach ($models as $model) {
+            $model->setRelation($relation, $this->getDefaultFor($model));
+        }
+
+        return $models;
     }
 }
