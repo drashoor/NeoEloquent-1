@@ -473,8 +473,7 @@ class Builder extends IlluminateBuilder {
      */
     public function simplePaginate($perPage = null, $columns = array('*'), $pageName = 'page', $page = null)
     {
-        $paginator = $this->query->getConnection()->getPaginator();
-        $page = $paginator->getCurrentPage();
+        $page = $page ?: Paginator::resolveCurrentPage($pageName);
         $perPage = $perPage ?: $this->model->getPerPage();
         $this->query->skip(($page - 1) * $perPage)->take($perPage + 1);
         return new Paginator($this->get($columns), $perPage, $page, [
