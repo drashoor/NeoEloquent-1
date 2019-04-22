@@ -529,7 +529,7 @@ class PolymorphicHyperMorphToTest extends TestCase {
         $commentOnPost  = Comment::create(['text' => 'Please soooooon!']);
         $postComment = $postCommentor->comments($post)->attach($commentOnPost);
 
-        $postMorph = $commentOnPost->post;
+        $postMorph = $commentOnPost->load("post")->post;
         $this->assertTrue($postMorph->exists);
         $this->assertGreaterThanOrEqual(0, $postMorph->id);
         $this->assertEquals($post->toArray(), $postMorph->toArray());
@@ -537,7 +537,7 @@ class PolymorphicHyperMorphToTest extends TestCase {
         $commentOnVideo = new Comment(['title' => 'When We Meet', 'url' => 'http://some.url']);
         $videoComment = $videoCommentor->comments($video)->attach($commentOnVideo);
 
-        $videoMorph = $commentOnVideo->video;
+        $videoMorph = $commentOnVideo->load("video")->video;
         $this->assertTrue($videoMorph->exists);
         $this->assertGreaterThanOrEqual(0, $videoMorph->id);
         $this->assertEquals($video->toArray(), $videoMorph->toArray());

@@ -3,7 +3,6 @@
 use Mockery as M;
 use Vinelab\NeoEloquent\Tests\TestCase;
 use Vinelab\NeoEloquent\Eloquent\Model;
-use Vinelab\NeoEloquent\Eloquent\SoftDeletingTrait;
 
 class Labelwiz extends Model {
 

@@ -10,6 +10,7 @@ class User extends \Illuminate\Database\Eloquent\Model
     use HybridRelations;
 
     protected $connection = "sqlite";
+    protected $table = "users";
     protected $fillable = ['name', 'email'];
 
     public function profile()
@@ -23,6 +24,7 @@ class Profile extends \Vinelab\NeoEloquent\Eloquent\Model
     use HybridRelations;
 
     protected $label = 'Profile';
+    protected $table = "Profile";
     protected $connection = "neo4j";
     protected $fillable = ['guid', 'service', 'user_id'];
 

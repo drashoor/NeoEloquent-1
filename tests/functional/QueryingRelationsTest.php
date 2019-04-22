@@ -574,7 +574,7 @@ class QueryingRelationsTest extends TestCase {
         $this->assertArrayHasKey('users', $roleFound->getRelations());
         $this->assertArrayHasKey('organization', $roleFound->users->first()->getRelations());
         $this->assertEquals('Pokemon', $roleFound->users->first()->organization->name);
-        $this->assertEquals($role->toArray(), $roleFound->toArray());
+        $this->assertEquals($role->id, $roleFound->id);
     }
 
     public function testQueryingRelatedModel()

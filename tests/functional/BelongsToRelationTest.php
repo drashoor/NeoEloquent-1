@@ -66,7 +66,7 @@ class BelongsToRelationTest extends TestCase {
 
         $this->assertTrue($relation->save());
 
-        $found = Location::find($location->id);
+        $found = Location::with('user')->find($location->id);
 
         $this->assertEquals($user->toArray(), $found->user->toArray());
         $this->assertTrue($relation->delete());
@@ -104,7 +104,7 @@ class BelongsToRelationTest extends TestCase {
         $this->assertEquals($location->user->toArray(), $user->toArray());
 
         // Let's retrieve it to make sure that NeoEloquent is not lying about it.
-        $saved = Location::find($location->id);
+        $saved = Location::with('user')->find($location->id);
         $this->assertEquals($user->toArray(), $saved->user->toArray());
 
         // delete the relation and make sure it was deleted

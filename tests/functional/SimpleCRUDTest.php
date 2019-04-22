@@ -25,6 +25,13 @@ class WizDel extends Model {
     protected $fillable = ['fiz', 'biz', 'triz'];
 }
 
+class User extends Model {
+
+    protected $label = 'Individual';
+
+    protected $fillable = ['name', 'email', 'alias', 'calls'];
+}
+
 class SimpleCRUDTest extends TestCase {
 
     public function setUp()
@@ -224,7 +231,7 @@ class SimpleCRUDTest extends TestCase {
         $this->assertTrue($inserted);
 
         // Let's fetch them to see if that's really true.
-        $wizzez = Wiz::all();
+        $wizzez = Wiz::latest('id')->get();
 
         foreach ($wizzez as $key => $wizz)
         {
