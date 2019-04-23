@@ -4,7 +4,8 @@ use Mockery as M;
 use Vinelab\NeoEloquent\Tests\TestCase;
 use Vinelab\NeoEloquent\Eloquent\Model;
 
-class User extends Model {
+class User extends Model
+{
 
     protected $label = 'Individual';
     protected $fillable = ['name', 'email'];
@@ -15,24 +16,31 @@ class User extends Model {
     }
 }
 
-class Profile extends Model {
+class Profile extends Model
+{
 
     protected $label = 'Profile';
+    protected $table = 'profile';
 
     protected $fillable = ['guid', 'service'];
 }
 
-class HasOneRelationTest extends TestCase {
+class HasOneRelationTest extends TestCase
+{
 
     public function tearDown()
     {
         M::close();
 
         $users = User::all();
-        $users->each(function($u) { $u->delete(); });
+        $users->each(function ($u) {
+            $u->delete();
+        });
 
         $accs = Profile::all();
-        $accs->each(function($a) { $a->delete(); });
+        $accs->each(function ($a) {
+            $a->delete();
+        });
 
         parent::tearDown();
     }
@@ -52,7 +60,6 @@ class HasOneRelationTest extends TestCase {
     {
         $user = User::create(['name' => 'Tests', 'email' => 'B']);
         $profile = Profile::create(['guid' => uniqid(), 'service' => 'twitter']);
-
         $relation = $user->profile()->save($profile);
 
         $this->assertInstanceOf('Vinelab\NeoEloquent\Eloquent\Edges\EdgeOut', $relation);
@@ -107,7 +114,7 @@ class HasOneRelationTest extends TestCase {
         $saved = User::find($user->id);
         $this->assertEquals($profile->toArray(), $saved->profile->toArray());
 
-     // delete the relation and make sure it was deleted
+        // delete the relation and make sure it was deleted
         // so that we can delete the nodes when cleaning up.
         $this->assertTrue($relation->delete());
     }

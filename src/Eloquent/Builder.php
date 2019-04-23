@@ -4,6 +4,7 @@ use Closure;
 use Everyman\Neo4j\Node;
 use Everyman\Neo4j\Query\Row;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Support\Arr;
 use Vinelab\NeoEloquent\Helpers;
 use Everyman\Neo4j\Query\ResultSet;
 use Vinelab\NeoEloquent\Eloquent\Model;
@@ -706,7 +707,16 @@ class Builder extends IlluminateBuilder
 
         return (!empty($models)) ? $models : null;
     }
+    protected function addUpdatedAtColumn(array $values)
+    {
+        if (! $this->model->usesTimestamps()) {
+            return $values;
+        }
 
+        $column = $this->model->getUpdatedAtColumn();
+
+        return Arr::add($values, $column, $this->model->freshTimestampString());
+    }
     /**
      * Prepare model's attributes or instance for creation in a query.
      *
