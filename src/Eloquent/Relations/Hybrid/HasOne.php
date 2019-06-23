@@ -42,7 +42,7 @@ class HasOne extends HasOneOrMany
     public function addEagerConstraints(array $models)
     {
         $this->query->whereNotNull($this->foreignKey);
-        $this->query->whereIn($this->foreignKey, $this->getKeys($models));
+        $this->query->whereIn($this->foreignKey, array_filter($this->getKeys($models)));
     }
 
     /**
