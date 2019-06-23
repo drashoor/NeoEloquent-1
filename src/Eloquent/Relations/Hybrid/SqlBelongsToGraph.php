@@ -30,12 +30,12 @@ class SqlBelongsToGraph extends OneRelation
     /**
      * Set the constraints for an eager load of the relation.
      *
-     * @param  array $models
+     * @param array $models
      * @return void
      */
     public function addEagerConstraints(array $models)
     {
-        $this->query->whereIn($this->ownerKey, $this->getKeys($models, $this->foreignKey));
+        $this->query->whereIn($this->ownerKey, array_filter($this->getKeys($models, $this->foreignKey)));
     }
 
 
@@ -47,8 +47,8 @@ class SqlBelongsToGraph extends OneRelation
     /**
      * Get an instance of the EdgeIn relationship.
      *
-     * @param  \Illuminate\Database\Eloquent\Model $model
-     * @param  array $attributes
+     * @param \Illuminate\Database\Eloquent\Model $model
+     * @param array $attributes
      * @return \Vinelab\NeoEloquent\Eloquent\Edges\EdgeIn
      */
     public function getEdge(EloquentModel $model = null, $attributes = array())
