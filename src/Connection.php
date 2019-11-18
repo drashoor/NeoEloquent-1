@@ -161,7 +161,7 @@ class Connection extends IlluminateConnection {
      *
      * @param  string|null  $option
      * @return mixed
-     */
+     */ 
     public function getConfig($option = null)
     {
         return Arr::get($this->config, $option);
