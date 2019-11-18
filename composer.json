@@ -17,13 +17,8 @@
   ],
   "require": {
     "php": ">=7.1.3",
-    "illuminate/support": "5.7.*",
-    "illuminate/database": "5.7.*",
-    "illuminate/pagination": "5.7.*",
-    "illuminate/events": "5.7.*",
-    "illuminate/console": "5.7.*",
-    "heydavid713/neo4jphp": "0.1.*",
-    "nesbot/carbon": "~1.0"
+    "heydavid713/neo4jphp": "*",
+    "nesbot/carbon": "*"
   },
   "require-dev": {
     "phpunit/phpunit": "~6.0",
