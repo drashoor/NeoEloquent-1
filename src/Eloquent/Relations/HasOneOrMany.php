@@ -236,7 +236,8 @@ abstract class HasOneOrMany extends IlluminateHasOneOrMany implements RelationIn
      * @param  array $properties The relationship properites
      * @return array
      */
-    public function createMany(array $records, array $properties = array())
+    // public function createMany(array $records, array $properties = array())
+    public function createMany(iterable $records)
     {
         $instances = new Collection;
 
